@@ -8,7 +8,7 @@ def verify_user_name(greet_user)
   if greet_user.split.length == 1
     puts "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
           \nPlease enter both your first and last name.
-          \n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+          \n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-"
     greet_user = gets.chomp
   end
   full_name = greet_user.split
