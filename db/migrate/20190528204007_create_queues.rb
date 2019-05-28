@@ -4,5 +4,6 @@ class CreateQueues < ActiveRecord::Migration[5.2]
       t.reference :movie
       t.reference :user
       t.timestamps
+    end
   end
 end
