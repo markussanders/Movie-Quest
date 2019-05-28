@@ -3,11 +3,12 @@ def greet_user
   full_name = gets.chomp
 end
 
-
 def verify_user_name(greet_user)
 
   if greet_user.split.length == 1
-    puts "Please enter both your first and last name."
+    puts "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+          \nPlease enter both your first and last name.
+          \n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
     greet_user = gets.chomp
   end
   full_name = greet_user.split
@@ -24,8 +25,14 @@ def stored_user_names
   # create - new user
 end
 
-def exit(input)
-  if input.downcase == 'exit'
-    false
-  end
+# def exit(input)
+#   if input.downcase == 'exit'
+#     false
+#   end
+# end
+
+def help
+  puts "\n
+  - help : displays this help message
+  - exit : exits this program"
 end
