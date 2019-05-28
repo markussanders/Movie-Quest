@@ -4,7 +4,7 @@ require 'JSON'
 movie_data = RestClient.get('http://www.omdbapi.com/?s=romantic&apikey=1d1382f6')
 parsed_movie_data = JSON.parse(movie_data)['Search']
 
-parsed_movie_data.collect do |movie|
+parsed_movie_data.each do |movie|
   id = movie['imdbID']
   data = RestClient.get("http://www.omdbapi.com/?i=#{id}&apikey=1d1382f6")
   parsed_data = JSON.parse(data)
