@@ -8,8 +8,8 @@ class CommandLineInterface
   end
 
   def get_name
-    name = gets.chomp.downcase
-    name
+    @user_name ||= gets.chomp.downcase
+    @user_name
   end
 
   def validate_name
@@ -26,7 +26,9 @@ class CommandLineInterface
   end
 
   def current_user
-    User.all.find_or_create_by(name: validate_name)
+    p "getting current user"
+    p validated = validate_name
+    User.find_or_create_by(name: validated)
   end
 
   def menu
@@ -77,8 +79,9 @@ class CommandLineInterface
     menu_choice = self.menu
       if menu_choice == '1' #search for movies
         puts "Please enter the title of the movie you would like to search."
-        self.search_for_movies
+        found_movie = self.search_for_movies
         puts "Search Results:"
+        puts found_movie
       elsif menu_choice == '2' #view current queue
         self.get_current_queue
       elsif menu_choice == '3' #modify queue
