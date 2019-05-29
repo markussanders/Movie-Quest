@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
     has_many :movies, through: :queue_selections
 
     def search_movie
-        
+
     end
 
     def get_movies
