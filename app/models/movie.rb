@@ -1,6 +1,5 @@
 class Movie < ActiveRecord::Base
     has_many :queue_selections
-    has_many :users, through: :queue_selection
     has_many :stars
     has_many :movie_genres
     has_many :users, through: :queue_selections

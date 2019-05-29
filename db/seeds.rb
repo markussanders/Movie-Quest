@@ -45,5 +45,3 @@ def create_genres(genres)
   end
 end
 # amy = User.new(id: 1, name: "Amy Myers")
-
-inital_parse

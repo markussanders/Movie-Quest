@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
     end
 
     def remove_queue_selection(movie)
-        
+
         self.queue_selections = self.queue_selections.reject do |queue_selection|
             queue_selection.movie_id == search_movie(movie).id
         end
