@@ -54,15 +54,15 @@ class CommandLineInterface
 
     ########menu################
     menu_choice = menu()
-    if menu_choice == '1'
+    if menu_choice == '1' #search for movies
+      Movies.
+    elsif menu_choice == '2' #view current queue
 
-    elsif menu_choice == '2'
+    elsif menu_choice == '3' #modify queue
 
-    elsif menu_choice == '3'
-
-    elsif menu_choice == '4'
+    elsif menu_choice == '4' #help
       help()
-    elsif menu_choice == '5'
+    elsif menu_choice == '5' #exit
       exit()
     else
       puts "Invalid input. Please select an option from below:"
