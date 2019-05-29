@@ -1,11 +1,15 @@
 class Movie < ActiveRecord::Base
-<<<<<<< HEAD
   has_many :queue_selections
   has_many :stars
   has_many :movie_genres
   has_many :users, through: :queue_selections
   has_many :actors, through: :stars
   has_many :genres, through: :movie_genres
+
+
+  def others_that_have_seen_movie
+    self.users
+  end
 
   def user_queue_count
     users.count
@@ -26,18 +30,4 @@ class Movie < ActiveRecord::Base
     actor_id = Actor.all.find_by(name: actor_name).id
     Actor.all[actor_id].movies
   end
-=======
-    has_many :queue_selections
-    has_many :users, through: :queue_selection
-    has_many :stars
-    has_many :movie_genres
-    has_many :users, through: :queue_selections
-    has_many :actors, through: :stars
-    has_many :genres, through: :movie_genres
-
-    def others_that_have_seen_movie
-      self.users
-    end
-
->>>>>>> 0e658ea981afc38f2c8b45279e95cbc005a06522
 end
