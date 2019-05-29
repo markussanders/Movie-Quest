@@ -1,4 +1,4 @@
-class UserQueue < ActiveRecord::Base
-    
-
+class QueueSelections < ActiveRecord::Base
+    belongs_to :user
+    belongs_to :movie
 end

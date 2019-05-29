@@ -1,5 +1,5 @@
 class Movie < ActiveRecord::Base
-    has_many :queues
-    has_many :users, through: :queues
+    has_many :queue_selections
+    has_many :users, through: :queue_selection
     
 end
