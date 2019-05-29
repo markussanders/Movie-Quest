@@ -10,15 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_29_184150) do
+ActiveRecord::Schema.define(version: 2019_05_29_200307) do
 
   create_table "actors", force: :cascade do |t|
     t.string "name"
   end
 
+  create_table "genres", force: :cascade do |t|
+    t.string "name"
+  end
+
+  create_table "movie_genres", force: :cascade do |t|
+    t.integer "movie_id"
+    t.integer "genre_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["genre_id"], name: "index_movie_genres_on_genre_id"
+    t.index ["movie_id"], name: "index_movie_genres_on_movie_id"
+  end
+
   create_table "movies", force: :cascade do |t|
     t.string "title"
-    t.string "genre"
     t.string "year"
     t.float "imdbRating"
   end
