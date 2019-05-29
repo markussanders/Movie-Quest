@@ -4,5 +4,4 @@ require 'pry'
 command = CommandLineInterface.new
 command.run
 
-# binding.pry
-# 0
+# amy = User.new(id: 1, name: "Amy Myers")

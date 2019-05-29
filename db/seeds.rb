@@ -22,13 +22,26 @@ def more_detailed_search(parsed_movie_data)
     parsed_data = JSON.parse(data)
 
     title = parsed_data['Title']
-    genre = parsed_data['Genre']
+    genre_list = create_genres(parsed_data['Genre'].split(", "))
     year = parsed_data['Year']
-    actors = parsed_data['Actors']
+    actor_list=create_actors(parsed_data['Actors'].split(", "))
     imdbRating = parsed_data['imdbRating'].to_f
 
-    Movie.create(title: title, genre: genre, year: year, actors: actors, imdbRating: imdbRating)
+    created_movie = Movie.find_or_create_by(title: title, year: year, imdbRating: imdbRating)
+    created_movie.actors << actor_list
+    created_movie.genres << genre_list
   end
 end
 
+def create_actors(actors)
+  actors.collect do |actor_name|
+    Actor.find_or_create_by(name: actor_name)
+  end
+end
+
+def create_genres(genres)
+  genres.collect do |genre_name|
+    Genre.find_or_create_by(name: genre_name)
+  end
+end
 # amy = User.new(id: 1, name: "Amy Myers")
