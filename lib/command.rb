@@ -38,10 +38,11 @@ class CommandLineInterface
     puts "4.) View the help menu."
     puts "5.) Exit."
     puts "-------------------------------------"
+    choice = gets.chomp
   end
 
-  def search_for_movies(user_input)
-
+  def search_for_movies
+    user_input = gets.chomp
     current_user.search_movie(user_input)
   end
 
@@ -73,26 +74,23 @@ class CommandLineInterface
   def run
     greeting
     validate_name
-    choice = gets.chomp.chomp
-    menu_choice = choice
-    if menu_choice == '1' #search for movies
+    menu_choice = self.menu
+      if menu_choice == '1' #search for movies
         puts "Please enter the title of the movie you would like to search."
-        movie_input=gets.chomp
-        movie = self.search_for_movies(movie_input)
+        self.search_for_movies
         puts "Search Results:"
-        puts movie.title
-    elsif menu_choice == '2' #view current queue
+      elsif menu_choice == '2' #view current queue
         self.get_current_queue
-    elsif menu_choice == '3' #modify queue
+      elsif menu_choice == '3' #modify queue
         self.remove_movie_from_queue
-    elsif menu_choice == '4' #help
+      elsif menu_choice == '4' #help
         self.help
-    elsif menu_choice == '5' #exit
+      elsif menu_choice == '5' #exit
         self.exit
-    else
+      else
         puts "Invalid input. Please select an option from below:"
         self.menu
-    end
+      end
     help_choice = self.help
       if help_choice == 'help'
         self.help
