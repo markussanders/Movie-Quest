@@ -21,14 +21,13 @@ class CommandLineInterface
       split_name << last_name
     end
     puts "Thanks!"
-    validated = split_name.map{|n| n.capitalize}.join(' ')
-    validated
+    @validated = split_name.map{|n| n.capitalize}.join(' ')
+    @validated
   end
 
   def current_user
-    p "getting current user"
     p validated = validate_name
-    User.find_or_create_by(name: validated)
+    User.find_or_create_by(name: @validated)
   end
 
   def menu
@@ -50,7 +49,7 @@ class CommandLineInterface
 
   def get_current_queue
     puts "Your current queue includes:"
-    puts current_user.get_movies
+    puts current_user.queue_selections
   end
 
   def remove_movie_from_queue
@@ -81,7 +80,7 @@ class CommandLineInterface
         puts "Please enter the title of the movie you would like to search."
         found_movie = self.search_for_movies
         puts "Search Results:"
-        puts found_movie
+        puts found_movie.title
       elsif menu_choice == '2' #view current queue
         self.get_current_queue
       elsif menu_choice == '3' #modify queue
@@ -94,6 +93,7 @@ class CommandLineInterface
         puts "Invalid input. Please select an option from below:"
         self.menu
       end
+
     help_choice = self.help
       if help_choice == 'help'
         self.help
