@@ -16,11 +16,12 @@ class CommandLineInterface
       split_name << last_name
     end
     puts "Thanks, #{split_name[0].downcase.capitalize}!"
+    # validated_name = split.name.join(' ')
+    # validated_name
   end
 
   def existing_user?(full_name)
-
-
+    User.all.find {|user| user.name == full_name}
   end
 
   def help()
@@ -45,41 +46,41 @@ class CommandLineInterface
   end
 
   def exit()
-    puts "Goodbye."
+    puts "Goodbye (▰˘︹˘▰)"
   end
 
   def run()
 
-    validate_name(greeting())
-
+    name = validate_name(greeting())
+    name
     ########menu################
     menu_choice = menu()
     if menu_choice == '1' #search for movies
-      Movies.
+
     elsif menu_choice == '2' #view current queue
 
     elsif menu_choice == '3' #modify queue
 
     elsif menu_choice == '4' #help
-      help()
+      self.help()
     elsif menu_choice == '5' #exit
-      exit()
+      self.exit()
     else
       puts "Invalid input. Please select an option from below:"
-      menu()
+      self.menu()
     end
 
     ##########help##############
     help_choice = help()
     if help_choice == 'help'
-      help()
+      self.help()
     elsif help_choice == 'exit'
-      exit()
+      self.exit()
     elsif help_choice == 'menu'
-      menu()
+      self.menu()
     else
       puts "Invalid input. Please select an option from below:"
-      help()
+      self.help()
     end
     return exit()
   end
