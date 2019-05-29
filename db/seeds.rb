@@ -1,6 +1,7 @@
 require 'rest-client'
 require 'JSON'
-require_relative 'config/environment'
+require_relative '../config/environment.rb'
+
 # http://www.omdbapi.com/?s=movie&page=2&apikey=1d1382f6
 # movie_data = RestClient.get('http://www.omdbapi.com/?s=romantic&apikey=1d1382f6')
 # parsed_movie_data = JSON.parse(movie_data)['Search']
@@ -45,5 +46,6 @@ def create_genres(genres)
     Genre.find_or_create_by(name: genre_name)
   end
 end
+
 initial_parse
 # amy = User.new(id: 1, name: "Amy Myers")
