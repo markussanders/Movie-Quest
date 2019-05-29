@@ -24,10 +24,17 @@ def more_detailed_search(parsed_movie_data)
     title = parsed_data['Title']
     genre = parsed_data['Genre']
     year = parsed_data['Year']
-    actors = parsed_data['Actors']
+    actor_list=create_actors(parsed_data['Actors'].split(", "))
     imdbRating = parsed_data['imdbRating'].to_f
 
-    Movie.create(title: title, genre: genre, year: year, actors: actors, imdbRating: imdbRating)
+    created_movie = Movie.find_or_create_by(title: title, genre: genre, year: year, imdbRating: imdbRating)
+    created_movie.actors << actor_list
+  end
+end
+
+def create_actors(actors)
+  actors.collect do |actor_name|
+    Actor.find_or_create_by(name: actor_name)
   end
 end
 
