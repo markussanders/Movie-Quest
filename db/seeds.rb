@@ -30,4 +30,10 @@ def more_detailed_search(parsed_movie_data)
     Movie.create(title: title, genre: genre, year: year, actors: actors, imdbRating: imdbRating)
   end
 end
+<<<<<<< HEAD
+
+amy = User.new(id: 1, name: "Amy Myers")
+
+=======
 inital_parse
+>>>>>>> 5e1267f9def1d22298da0896ae57cca2de995672
