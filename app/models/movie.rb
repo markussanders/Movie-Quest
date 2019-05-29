@@ -9,4 +9,5 @@ class Movie < ActiveRecord::Base
     def others_that_have_seen_movie
       self.users
     end
+
 end
