@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_29_141152) do
-
+ActiveRecord::Schema.define(version: 2019_05_29_145457) do
 
   create_table "movies", force: :cascade do |t|
     t.string "title"
@@ -21,13 +20,13 @@ ActiveRecord::Schema.define(version: 2019_05_29_141152) do
     t.float "imdbRating"
   end
 
-  create_table "user_queues", force: :cascade do |t|
+  create_table "queue_selections", force: :cascade do |t|
     t.integer "movie_id"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["movie_id"], name: "index_user_queues_on_movie_id"
-    t.index ["user_id"], name: "index_user_queues_on_user_id"
+    t.index ["movie_id"], name: "index_queue_selections_on_movie_id"
+    t.index ["user_id"], name: "index_queue_selections_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
