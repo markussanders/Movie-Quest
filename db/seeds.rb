@@ -1,11 +1,12 @@
 require 'rest-client'
 require 'JSON'
+require_relative 'config/environment'
 # http://www.omdbapi.com/?s=movie&page=2&apikey=1d1382f6
 # movie_data = RestClient.get('http://www.omdbapi.com/?s=romantic&apikey=1d1382f6')
 # parsed_movie_data = JSON.parse(movie_data)['Search']
 
 
-def inital_parse
+def initial_parse
   page=1
   while page <= 10 do
     movie_data = RestClient.get("http://www.omdbapi.com/?s=movie&page=#{page}&apikey=1d1382f6")
@@ -44,6 +45,5 @@ def create_genres(genres)
     Genre.find_or_create_by(name: genre_name)
   end
 end
+initial_parse
 # amy = User.new(id: 1, name: "Amy Myers")
-
-inital_parse
