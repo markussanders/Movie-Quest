@@ -4,5 +4,5 @@ require 'pry'
 command = CommandLineInterface.new
 
 command.run
-binding.pry
+# binding.pry
 puts "HELLO WORLD"

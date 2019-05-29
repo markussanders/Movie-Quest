@@ -1,48 +1,66 @@
 class CommandLineInterface
 
-
-  def greet_user
+  def greeting()
     puts "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-"
     puts "Hello! Please enter your first and last name."
     puts "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-"
     full_name = gets.chomp
+    full_name
   end
 
-  def verify_user_name(greet_user)
-
-    if greet_user.split.length == 1
-      puts "-_-_-_-_-_-_!!!!!!!!!!!!!!!!!!!_-_-_-_-_-_-_"
-      puts "Please enter both your first and last name."
-      puts "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_"
-      greet_user = gets.chomp
+  def validate_name(full_name)
+    split_name = full_name.split
+    if split_name.length == 1
+      puts "Please enter your last name."
+      last_name = gets.chomp
+      split_name << last_name
     end
-    full_name = greet_user.split
-    first_name = full_name[0]
-    last_name = full_name[-1]
-
-    puts "Thank you, #{first_name}!"
-    new_full_name = "#{first_name.downcase} #{last_name.downcase}"
+    puts "Thanks, #{split_name[0].downcase.capitalize}!"
   end
 
-  def stored_user_names
-    # search user db for names matching username
-    # find - return user and user queue of movies
-    # create - new user
+  def help()
+    puts "-------------------------------------"
+    puts "- help : displays this help message."
+    puts "- exit : exits this program."
+    puts "- menu : returns to main menu."
+    puts "-------------------------------------"
+    choice = gets.chomp.downcase
   end
 
-  # def exit(input)
-  #   if input.downcase == 'exit'
-  #     false
-  #   end
-  # end
+  def menu()
+    puts "-------------------------------------"
+    puts "Select an option:"
+    puts "1.) Search for movies."
+    puts "2.) View your current queue."
+    puts "3.) Modify your current queue."
+    puts "4.) View the help menu."
+    puts "5.) Exit."
+    puts "-------------------------------------"
+    choice = gets.chomp
+  end
 
-  def help
-    puts "\n
-    - help : displays this help message
-    - exit : exits this program"
+  def exit()
+    puts "Goodbye."
   end
 
   def run()
-    verify_user_name(greet_user)
+
+    validate_name(greeting())
+    menu()
+
+    help_choice = help()
+    if help_choice == 'help'
+      help()
+    elsif help_choice == 'exit'
+      exit()
+    elsif help_choice == 'menu'
+      menu()
+    else
+      puts "Invalid input. Please select an option from below:"
+      help()
+    end
+
+    return exit()
+
   end
 end
