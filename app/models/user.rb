@@ -2,19 +2,11 @@ class User < ActiveRecord::Base
     has_many :queue_selections
     has_many :movies, through: :queue_selections
 
-    def search_movie
-
+    def search_movie(movie_input)
+        Movie.all.select do |movie|
+            movie[:title].downcase == movie_input.downcase
+        end[0]
     end
-
-    def get_movies
-        self.queue_selections
-    end
-
-    # def view_queue => amy.queue_selections
-    #     QueueSelection.all.select do |queue_selection|
-    #         queue_selection.all.user_id == self.user_id
-    #     end
-    # end
 
     def add_queue_selection(movie)
         new_movie_id = search_movie(movie).id
@@ -23,10 +15,10 @@ class User < ActiveRecord::Base
     end
 
     def remove_queue_selection(movie)
-        pending_deletion_movie_id = search_movie(movie).id
         
-        self.queue_selections.find_by(movie_id: pending_deletion_movie_id).destroy
-
+        self.queue_selections = self.queue_selections.reject do |queue_selection|
+            queue_selection.movie_id == search_movie(movie).id
+        end
     end
 
 end
