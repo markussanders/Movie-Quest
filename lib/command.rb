@@ -1,19 +1,19 @@
 require 'pry'
 class CommandLineInterface
 
-  def greeting()
+  def greeting
     puts "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-"
     puts "Hello! Please enter your first and last name."
     puts "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-"
   end
 
-  def get_name()
+  def get_name
     name = gets.chomp.downcase
     name
   end
 
   def validate_name
-    split_name = self.get_name().split
+    split_name = self.get_name.split
 
     if split_name.length == 1
       puts "Please enter your last name."
@@ -41,9 +41,21 @@ class CommandLineInterface
     choice = gets.chomp
   end
 
-  def search_for_movies()
+  def search_for_movies
     user_input = gets.chomp
     current_user.search_movie(user_input)
+  end
+
+  def get_current_queue
+    puts "Your current queue includes:"
+    puts current_user.get_movies
+  end
+
+  def remove_movie_from_queue
+    self.get_current_queue
+    puts "Type the title of the movie you would like to remove."
+    movie_title = gets.chomp
+    current_user.remove_queue_selections(movie_title)
   end
 
   def help
@@ -55,27 +67,26 @@ class CommandLineInterface
     choice = gets.chomp.downcase
   end
 
-  def exit()
+  def exit
     return "Goodbye (▰˘︹˘▰)"
   end
 
-  def run()
-    greeting()
+  def run
+    greeting
     validate_name
-    menu_choice = menu()
+    menu_choice = self.menu
       if menu_choice == '1' #search for movies
         puts "Please enter the title of the movie you would like to search."
-        puts search_for_movies()
+        self.search_for_movies
         puts "Search Results:"
       elsif menu_choice == '2' #view current queue
-        puts "Your current queue includes:"
-         puts current_user.get_movies
+        self.get_current_queue
       elsif menu_choice == '3' #modify queue
-
+        self.remove_movie_from_queue
       elsif menu_choice == '4' #help
         self.help
       elsif menu_choice == '5' #exit
-        self.exit()
+        self.exit
       else
         puts "Invalid input. Please select an option from below:"
         self.menu
@@ -84,7 +95,7 @@ class CommandLineInterface
       if help_choice == 'help'
         self.help
       elsif help_choice == 'exit'
-        self.exit()
+        self.exit
       elsif help_choice == 'menu'
         self.menu
       else
