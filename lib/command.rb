@@ -52,7 +52,7 @@ class CommandLineInterface
     end
     found_movie = current_user.search_movie(user_input)
     puts "Search Results:"
-    puts found_movie
+    found_movie
   end
 
   def get_current_queue
@@ -64,10 +64,10 @@ class CommandLineInterface
     puts "Would you like to add this movie to your queue? (Y/N)"
     user_input = gets.chomp
     if user_input.downcase == 'y'
-      current_user.add_queue_selection(movie)
       puts "'#{movie.title}' has been added to your queue."
+      current_user.add_queue_selection(movie)
     end
-    puts self.menu
+     self.run
   end
 
   def remove_movie_from_queue
@@ -89,7 +89,7 @@ class CommandLineInterface
     elsif choice == 'exit'
       self.exit
     elsif choice == 'menu'
-      self.menu
+      self.run
     else
       puts "Invalid input. Please select an option from below:"
       self.help
@@ -112,7 +112,8 @@ class CommandLineInterface
         self.run
       elsif menu_choice == '5' #add to queue
         movie_to_add = self.search_for_movies
-        puts self.add_movie_to_queue?(movie_to_add)
+        binding.pry
+        self.add_movie_to_queue?(movie_to_add)
         puts "Added #{movie_to_add.title} to your queue."
         self.run
       elsif menu_choice == '6' #modify queue
