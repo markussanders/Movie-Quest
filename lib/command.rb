@@ -49,8 +49,15 @@ class CommandLineInterface
       puts "Sorry, that title cant be found."
     end
     found_movie = current_user.search_movie(user_input)
+    year = found_movie.year
     puts "Search Results:"
-    puts found_movie
+    puts "#{found_movie.title} (#{year})"
+    rating = found_movie.imdbRating
+    actors = found_movie.actors.uniq.map {|actor| actor.name}
+    puts "-------------------------------------"
+    starring = "Starring: "
+    puts starring + actors.join(', ')
+    puts "IMDb rating: #{rating}"
     found_movie
   end
 
@@ -131,18 +138,14 @@ class CommandLineInterface
       if menu_choice == '1' #search for movies
         found_movie = self.search_for_movies
         add_movie_to_queue?(found_movie)
-        self.other_options
       elsif menu_choice == '2' #search for movies by actor
         self.search_for_movies_by_actor
         self.add_multiple_movies_to_queue?
-        self.run
       elsif menu_choice == '3' #search for movies by genre
         self.search_for_movies_by_genre
         self.add_multiple_movies_to_queue?
-        self.run
       elsif menu_choice == '4' #view current queue
         self.get_current_queue
-
       elsif menu_choice == '5' #add to queue
         self.add_movie_to_queue?(select_movie_to_add)
       elsif menu_choice == '6' #modify queue
@@ -164,21 +167,21 @@ class CommandLineInterface
     user_input = gets.chomp
     if user_input.downcase == 'y'
       puts "-------------------------------------------------------------"
-      puts "Please enter the title of the movie you would like to search."
+      puts "Please enter the title of the movie you would like to add."
       puts "-------------------------------------------------------------"
       new_input = gets.chomp
       movie = current_user.search_movie(new_input)
       if current_user.search_movie(new_input).nil?
         puts "Sorry, that title cant be found."
         # self.search_for_movies
-        self.run
+        return self.other_options
       end
       current_user.add_queue_selection(movie)
       puts "'#{movie.title}' has been added to your queue."
     else
       puts "Invalid input"
     end
-    # puts self.menu
+    self.other_options
   end
 
   def search_for_movies_by_genre
@@ -189,7 +192,7 @@ class CommandLineInterface
     if Movie.all_by_genre(user_input)==[]
       puts "Sorry, that genre cant be found."
       # self.search_for_movies
-      self.run
+      return self.other_options
     end
     found_movies = Movie.all_by_genre(user_input)
     puts "-------------------------------------------------------------"
@@ -208,7 +211,7 @@ class CommandLineInterface
     if Movie.all_by_actor(user_input)==[]
       puts "Sorry, that actor cant be found."
       # self.search_for_movies
-      self.run
+      return self.other_options
     end
     found_movies = Movie.all_by_actor(user_input)
     puts "-------------------------------------------------------------"
