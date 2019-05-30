@@ -198,7 +198,7 @@ class CommandLineInterface
     if found_movies.nil?
       puts "Sorry, that genre cant be found."
       # self.search_for_movies
-      self.search_for_movies_by_genre
+      self.other_options
     else
       puts "-------------------------------------------------------------"
       puts "Search Results:"
@@ -218,7 +218,7 @@ class CommandLineInterface
     if found_movies.nil?
       puts "Sorry, that actor cant be found."
       # self.search_for_movies
-      self.search_for_movies_by_actor
+      self.other_options
     else
       puts "-------------------------------------------------------------"
       puts "Search Results:"
