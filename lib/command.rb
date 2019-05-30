@@ -64,10 +64,10 @@ class CommandLineInterface
     puts "Would you like to add this movie to your queue? (Y/N)"
     user_input = gets.chomp
     if user_input.downcase == 'y'
-      current_user.add_queue_selection(movie)
       puts "'#{movie.title}' has been added to your queue."
+      current_user.add_queue_selection(movie)
     end
-    puts self.menu
+    self.run
   end
 
   def remove_movie_from_queue
@@ -89,7 +89,7 @@ class CommandLineInterface
     elsif choice == 'exit'
       self.exit
     elsif choice == 'menu'
-      self.menu
+      self.run
     else
       puts "Invalid input. Please select an option from below:"
       self.help
@@ -116,11 +116,13 @@ class CommandLineInterface
         add_multiple_movies_to_queue?(found_movies)
         self.run
       elsif menu_choice == '4' #view current queue
-        puts self.get_current_queue
+        puts "#{self.get_current_queue}"
         self.run
       elsif menu_choice == '5' #add to queue
-        movie_to_add = self.search_for_movies
-        puts self.add_movie_to_queue?(movie_to_add)
+        puts "Please enter the movie title you would like to add."
+        movie_to_add = gets.chomp
+        found_movie = current_user.search_movie(movie_to_add)
+        self.add_movie_to_queue?(found_movie)
         puts "Added #{movie_to_add.title} to your queue."
         self.run
       elsif menu_choice == '6' #modify queue
@@ -167,4 +169,46 @@ class CommandLineInterface
     end
     found_movies
   end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def other_options
+  puts "Would you like to do something else? (Y/N)"
+  user_input = gets.chomp.downcase
+  user_input == 'y' ? self.run : self.exit
 end
