@@ -47,6 +47,7 @@ class CommandLineInterface
     user_input = gets.chomp
     if current_user.search_movie(user_input).nil?
       puts "Sorry, that title cant be found."
+      return nil
     end
     found_movie = current_user.search_movie(user_input)
     year = found_movie.year
@@ -86,6 +87,9 @@ class CommandLineInterface
 
   def add_movie_to_queue?(movie)
     # movie = self.movie_to_add
+    if movie.nil?
+      return self.other_options
+    end
     puts "Would you like to add this movie to your queue? (Y/N)"
     user_input = gets.chomp
     if user_input.downcase == 'y'
