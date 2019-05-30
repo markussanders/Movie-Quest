@@ -188,6 +188,7 @@ class CommandLineInterface
     puts "-------------------------------------------------------------"
     puts "Please enter the genre of the movie you would like to search."
     puts "-------------------------------------------------------------"
+    Genre.list_of_all_genres
     user_input = gets.chomp
     if Movie.all_by_genre(user_input)==[]
       puts "Sorry, that genre cant be found."
