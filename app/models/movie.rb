@@ -19,12 +19,13 @@ class Movie < ActiveRecord::Base
   end
 
   def self.all_by_genre(genre)
-    genre_name = genre.split(' ').collect(&:capitalize).join(' ')
+    genre_name = genre.capitalize
     genre_id = Genre.all.find_by(name: genre_name)
-    if genre_id.nil?
+    if genre_id.nil? ||
       nil
     else
-      Genre.all[genre_id.id].movies
+      p genre_id.id
+      Genre.all[genre_id.id-1].movies
     end
   end
 
@@ -34,7 +35,7 @@ class Movie < ActiveRecord::Base
     if actor_id.nil?
       nil
     else
-      Actor.all[actor_id.id].movies
+      Actor.all[actor_id.id-1].movies
     end
   end
 end

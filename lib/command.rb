@@ -49,8 +49,15 @@ class CommandLineInterface
       puts "Sorry, that title cant be found."
     end
     found_movie = current_user.search_movie(user_input)
+    year = found_movie.year
     puts "Search Results:"
-    puts found_movie
+    puts "#{found_movie.title} (#{year})"
+    rating = found_movie.imdbRating
+    actors = found_movie.actors.uniq.map {|actor| actor.name}
+    puts "-------------------------------------"
+    starring = "Starring: "
+    puts starring + actors.join(', ')
+    puts "IMDb rating: #{rating}"
     found_movie
   end
 
@@ -131,18 +138,14 @@ class CommandLineInterface
       if menu_choice == '1' #search for movies
         found_movie = self.search_for_movies
         add_movie_to_queue?(found_movie)
-        self.other_options
       elsif menu_choice == '2' #search for movies by actor
         self.search_for_movies_by_actor
         self.add_multiple_movies_to_queue?
-        self.other_options
       elsif menu_choice == '3' #search for movies by genre
         self.search_for_movies_by_genre
         self.add_multiple_movies_to_queue?
-        self.other_options
       elsif menu_choice == '4' #view current queue
         self.get_current_queue
-
       elsif menu_choice == '5' #add to queue
         self.add_movie_to_queue?(select_movie_to_add)
       elsif menu_choice == '6' #modify queue
@@ -164,7 +167,7 @@ class CommandLineInterface
     user_input = gets.chomp
     if user_input.downcase == 'y'
       puts "-------------------------------------------------------------"
-      puts "Please enter the title of the movie you would like to search."
+      puts "Please enter the title of the movie you would like to add."
       puts "-------------------------------------------------------------"
       new_input = gets.chomp
       movie = current_user.search_movie(new_input)
@@ -178,27 +181,29 @@ class CommandLineInterface
     else
       self.other_options
     end
-    # puts self.menu
   end
 
   def search_for_movies_by_genre
     puts "-------------------------------------------------------------"
     puts "Please enter the genre of the movie you would like to search."
     puts "-------------------------------------------------------------"
+    Genre.list_of_all_genres
+    puts "-------------------------------------------------------------"
     user_input = gets.chomp
-    if !(Movie.all_by_genre(user_input).nil?)
+    found_movies = Movie.all_by_genre(user_input)
+    if found_movies.nil?
       puts "Sorry, that genre cant be found."
       # self.search_for_movies
-      self.other_options
+      self.search_for_movies_by_genre
+    else
+      puts "-------------------------------------------------------------"
+      puts "Search Results:"
+      puts "-------------------------------------------------------------"
+      found_movies.each do |movie|
+        puts movie.title
+      end
+      found_movies
     end
-    found_movies = Movie.all_by_genre(user_input)
-    puts "-------------------------------------------------------------"
-    puts "Search Results:"
-    puts "-------------------------------------------------------------"
-    found_movies.each do |movie|
-      puts movie.title
-    end
-    found_movies
   end
   def search_for_movies_by_actor
     puts "-------------------------------------------------------------"
