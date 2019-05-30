@@ -107,6 +107,14 @@ class CommandLineInterface
         found_movie = self.search_for_movies
         add_movie_to_queue?(found_movie)
         self.run
+      elsif menu_choice == '2' #search for movies by actor
+        found_movies = self.search_for_movies_by_actor
+        add_multiple_movies_to_queue?(found_movies)
+        self.run
+      elsif menu_choice == '3' #search for movies by genre
+        found_movies = self.search_for_movies_by_genre
+        add_multiple_movies_to_queue?(found_movies)
+        self.run
       elsif menu_choice == '4' #view current queue
         puts self.get_current_queue
         self.run
@@ -127,4 +135,36 @@ class CommandLineInterface
       end
   end
 
+  def add_multiple_movies_to_queue?(found_movies)
+    puts "Would you like to one of these movie to your queue? (Y/N)"
+    user_input = gets.chomp
+    if user_input.downcase == 'y'
+      puts "Please enter the title of the movie you would like to search"
+      movie = gets.chomp
+      if current_user.search_movie(movie).nil?
+        puts "Sorry, that title cant be found."
+        # self.search_for_movies
+        self.run
+      end
+      current_user.add_queue_selection(movie)
+      puts "'#{movie.title}' has been added to your queue."
+    end
+    puts self.menu
+  end
+
+  def search_for_movies_by_genre
+    puts "Please enter the genre of the movie you would like to search."
+    user_input = gets.chomp
+    if Movie.all_by_genre(user_input)==[]
+      puts "Sorry, that genre cant be found."
+      # self.search_for_movies
+      self.run
+    end
+    found_movies = Movie.all_by_genre(user_input)
+    puts "Search Results:"
+    found_movies.each do |movie|
+      puts movie.title
+    end
+    found_movies
+  end
 end
