@@ -135,11 +135,11 @@ class CommandLineInterface
       elsif menu_choice == '2' #search for movies by actor
         self.search_for_movies_by_actor
         self.add_multiple_movies_to_queue?
-        self.run
+        self.other_options
       elsif menu_choice == '3' #search for movies by genre
         self.search_for_movies_by_genre
         self.add_multiple_movies_to_queue?
-        self.run
+        self.other_options
       elsif menu_choice == '4' #view current queue
         self.get_current_queue
 
@@ -171,12 +171,12 @@ class CommandLineInterface
       if current_user.search_movie(new_input).nil?
         puts "Sorry, that title cant be found."
         # self.search_for_movies
-        self.run
+        self.other_options
       end
       current_user.add_queue_selection(movie)
       puts "'#{movie.title}' has been added to your queue."
     else
-      puts "Invalid input"
+      self.other_options
     end
     # puts self.menu
   end
@@ -186,10 +186,10 @@ class CommandLineInterface
     puts "Please enter the genre of the movie you would like to search."
     puts "-------------------------------------------------------------"
     user_input = gets.chomp
-    if Movie.all_by_genre(user_input)==[]
+    if !(Movie.all_by_genre(user_input).nil?)
       puts "Sorry, that genre cant be found."
       # self.search_for_movies
-      self.run
+      self.other_options
     end
     found_movies = Movie.all_by_genre(user_input)
     puts "-------------------------------------------------------------"
@@ -205,19 +205,21 @@ class CommandLineInterface
     puts "Please enter the actor of the movie you would like to search."
     puts "-------------------------------------------------------------"
     user_input = gets.chomp
-    if Movie.all_by_actor(user_input)==[]
+    found_movies = Movie.all_by_actor(user_input)
+    if found_movies.nil?
       puts "Sorry, that actor cant be found."
       # self.search_for_movies
-      self.run
+      self.search_for_movies_by_actor
+    else
+      puts "-------------------------------------------------------------"
+      puts "Search Results:"
+      puts "-------------------------------------------------------------"
+      found_movies.each do |movie|
+        puts movie.title
+      end
+      found_movies
     end
-    found_movies = Movie.all_by_actor(user_input)
-    puts "-------------------------------------------------------------"
-    puts "Search Results:"
-    puts "-------------------------------------------------------------"
-    found_movies.each do |movie|
-      puts movie.title
-    end
-    found_movies
+
   end
 
 end
