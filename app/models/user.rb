@@ -3,11 +3,12 @@ class User < ActiveRecord::Base
     has_many :movies, through: :queue_selections
 
     def search_movie(movie_input)
-        Movie.where("LOWER(title) = ?", movie_input.downcase)[0]
+        input = movie_input.downcase
+        Movie.where("LOWER(title) = ?", input)[0]
     end
 
     def add_queue_selection(movie)
-        new_movie_id = search_movie(movie).id
+        new_movie_id = search_movie(movie.title).id
         QueueSelection.new(user_id: self.id, movie_id: new_movie_id).save
     end
 
