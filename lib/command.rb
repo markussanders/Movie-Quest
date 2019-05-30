@@ -9,11 +9,10 @@ class CommandLineInterface
 
   def get_name
     @user_name ||= gets.chomp.downcase
-    @user_name
   end
 
   def validate_name
-    split_name = self.get_name.split
+    split_name = @user_name.split
 
     if split_name.length == 1
       puts "Please enter your last name."
@@ -21,23 +20,24 @@ class CommandLineInterface
       split_name << last_name
     end
     @validated = split_name.map{|n| n.capitalize}.join(' ')
-    @validated
+    puts "Welcome, #{@validated.split[0].capitalize}!"
   end
 
   def current_user
-    p validated = validate_name
     User.find_or_create_by(name: @validated)
   end
 
   def menu
     puts "-------------------------------------"
     puts "Select an option:                   -"
-    puts "1.) Search for movies.              -"
-    puts "2.) View your current queue.        -"
-    puts "3.) Add a movie to your queue.      -"
-    puts "4.) Remove a movie from your queue. -"
-    puts "5.) View the help menu.             -"
-    puts "6.) Exit.                           -"
+    puts "1.) Search for movies by title      -"
+    puts "2.) Search for movies by actor      -"
+    puts "3.) Search for movies by genre      -"
+    puts "4.) View your current queue.        -"
+    puts "5.) Add a movie to your queue.      -"
+    puts "6.) Remove a movie from your queue. -"
+    puts "7.) View the help menu.             -"
+    puts "8.) Exit.                           -"
     puts "-------------------------------------"
     choice = gets.chomp
   end
@@ -48,9 +48,11 @@ class CommandLineInterface
     if current_user.search_movie(user_input).nil?
       puts "Sorry, that title cant be found."
       # self.search_for_movies
-      self.menu
+      self.run
     end
-    current_user.search_movie(user_input)
+    found_movie = current_user.search_movie(user_input)
+    puts "Search Results:"
+    puts found_movie
   end
 
   def get_current_queue
@@ -65,14 +67,14 @@ class CommandLineInterface
       current_user.add_queue_selection(movie)
       puts "'#{movie.title}' has been added to your queue."
     end
-    self.menu
+    puts self.menu
   end
 
   def remove_movie_from_queue
     self.get_current_queue
     puts "Type the title of the movie you would like to remove."
     movie_title = gets.chomp
-    current_user.remove_queue_selections(movie_title)
+    puts current_user.remove_queue_selections(movie_title)
   end
 
   def help
@@ -100,27 +102,24 @@ class CommandLineInterface
   end
 
   def run
-    greeting
-    validate_name
-    puts "Welcome, #{@user_name.split[0].capitalize}!"
     menu_choice = self.menu
       if menu_choice == '1' #search for movies
         found_movie = self.search_for_movies
-        puts "Search Results:"
-        puts found_movie.title
-        puts "___________________________"
         add_movie_to_queue?(found_movie)
-      elsif menu_choice == '2' #view current queue
-        self.get_current_queue
-      elsif menu_choice == '3' #add to queue
+        self.run
+      elsif menu_choice == '4' #view current queue
+        puts self.get_current_queue
+        self.run
+      elsif menu_choice == '5' #add to queue
         movie_to_add = self.search_for_movies
-        self.add_movie_to_queue?(movie_to_add)
+        puts self.add_movie_to_queue?(movie_to_add)
         puts "Added #{movie_to_add.title} to your queue."
-      elsif menu_choice == '4' #modify queue
-        self.remove_movie_from_queue
-      elsif menu_choice == '5' #help
+        self.run
+      elsif menu_choice == '6' #modify queue
+        puts self.remove_movie_from_queue
+      elsif menu_choice == '7' #help
         self.help
-      elsif menu_choice == '6' #exit
+      elsif menu_choice == '8' #exit
         self.exit
       else
         puts "Invalid input. Please select an option from below:"
