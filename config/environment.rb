@@ -9,4 +9,3 @@ ActiveRecord::Base.logger = nil
 # amy = User.new(id: 1, name: "Amy Myers")
 amy = User.new(id: 87, name: "Amy")
 
-amy.add_queue_selection("the simpsons movie")
