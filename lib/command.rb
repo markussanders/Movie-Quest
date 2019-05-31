@@ -178,7 +178,7 @@ class CommandLineInterface
 
   def add_multiple_movies_to_queue?
     puts "--------------------------------------------------------------"
-    puts "Would you like add to one of these movie to your queue? (Y/N)🤔"
+    puts "Would you like add to your queue? (Y/N)🤔"
     puts "--------------------------------------------------------------"
     user_input = gets.chomp
     if user_input.downcase == 'y'
@@ -230,20 +230,18 @@ class CommandLineInterface
     user_input = gets.chomp
     found_movies = Movie.all_by_actor(user_input)
     if found_movies.nil?
-      puts "(•ิ_•ิ)?"
-      puts "Sorry, that actor cant be found.🤭"
-      # self.search_for_movies
-      self.other_options
-    else
-      puts "-------------------------------------------------------------"
-      puts "Search Results:"
-      puts "-------------------------------------------------------------"
-      found_movies.each do |movie|
-        puts movie.title
-      end
-      found_movies
+      emoji = ["(•ิ_•ิ)?", "🤔"]
+      puts emoji.sample
+      puts "Sorry, movies with that actor can't be found."
+      return nil
     end
-
+    actors = found_movies.map{|movie| movie.actors}.flatten.map {|actor| actor.name}.uniq
+    puts "Search Results:"
+    puts "-------------------------------------"
+    found_movies.uniq.each {|movie|
+      puts "#{movie.title} (#{movie.year})
+      \nCast: #{actors.join(', ')}\nIMDb rating: #{movie.imdbRating}"
+    }
   end
 
 end
