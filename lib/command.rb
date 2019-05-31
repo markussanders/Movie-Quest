@@ -98,7 +98,7 @@ class CommandLineInterface
     if movie.nil?
       return self.other_options
     end
-    puts "Would you like to add this movie to your queue? (Y/N) 🤔"
+    puts "Would you like to add to your queue? (Y/N) 🤔"
     user_input = gets.chomp
     if user_input.downcase == 'y'
       puts "(☞ ͡° ͜ʖ ͡°)☞'#{movie.title}' has been added to your queue."
@@ -136,7 +136,7 @@ class CommandLineInterface
   end
 
   def exit
-    emoji = ["(ノ﹏ヽ)", "(▰˘︹˘▰)", "(•́ ⍨ •̀)","┏༼ ◉ ╭╮ ◉༽┓", "😔"]
+    emoji = ["(ノ﹏ヽ)", "(▰˘︹˘▰)", "(•́ ⍨ •̀)","┏༼◉╭╮◉༽┓", "😔"]
     puts "Goodbye #{emoji.sample}"
     return
   end
@@ -157,6 +157,7 @@ class CommandLineInterface
         self.add_multiple_movies_to_queue?
       elsif menu_choice == '3' #search for movies by genre
         self.search_for_movies_by_genre
+        self.top_ten_by_genre
         self.add_multiple_movies_to_queue?
       elsif menu_choice == '4' #view current queue
         self.get_current_queue
@@ -178,26 +179,23 @@ class CommandLineInterface
 
   def add_multiple_movies_to_queue?
     puts "--------------------------------------------------------------"
-    puts "Would you like add to one of these movie to your queue? (Y/N)🤔"
+    puts "Would you like add to your queue? (Y/N)🤔"
     puts "--------------------------------------------------------------"
     user_input = gets.chomp
     if user_input.downcase == 'y'
-      puts "-------------------------------------------------------------"
-      puts "Please enter the title of the movie you would like to add."
-      puts "-------------------------------------------------------------"
-      new_input = gets.chomp
-      movie = current_user.search_movie(new_input)
-      if current_user.search_movie(new_input).nil?
-        puts "Sorry, that title cant be found."
-        # self.search_for_movies
+      puts "Please enter the movie title you would like to add. 📝"
+      movie_title = gets.chomp
+      movie_to_add = current_user.search_movie(movie_title)
+      if movie_to_add.nil?
+        puts "(•ิ_•ิ)?"
+        puts "Sorry, that movie can't be found."
         return self.other_options
+      else
+        puts "(☞ ͡° ͜ʖ ͡°)☞'#{movie_to_add.title}' has been added to your queue.😎"
+        current_user.add_queue_selection(movie_to_add)
       end
-      current_user.add_queue_selection(movie)
-      puts "'#{movie.title}' has been added to your queue."
-      self.other_options
-    else
-      self.other_options
     end
+    self.other_options
   end
 
   def search_for_movies_by_genre
@@ -206,23 +204,34 @@ class CommandLineInterface
     puts "-------------------------------------------------------------"
     Genre.list_of_all_genres
     puts "-------------------------------------------------------------"
-    user_input = gets.chomp
+    user_input = gets.chomp.downcase.capitalize
+    @chosen_genre = user_input
     found_movies = Movie.all_by_genre(user_input)
     if found_movies.nil?
       puts "(•ิ_•ิ)?"
       puts "Sorry, that genre cant be found.🤭"
-      # self.search_for_movies
-      self.other_options
+      return nil
     else
-      puts "-------------------------------------------------------------"
-      puts "Search Results:"
-      puts "-------------------------------------------------------------"
-      found_movies.each do |movie|
-        puts movie.title
-      end
-      found_movies
+      found_movies.uniq.each {|movie| puts movie.title}
     end
   end
+
+  def top_ten_by_genre
+    puts "View Top 10 🔝 rated #{@chosen_genre} films? (Y/N)"
+    user_input = gets.chomp.downcase
+    if user_input == 'y'
+      all_movies = Movie.all_by_genre(@chosen_genre.split.map(&:capitalize)*' ')
+      if all_movies
+        top_ten = all_movies.uniq.sort_by {|movie| movie.imdbRating}.reverse[0...10]
+        puts "-------------------------------------"
+        puts "The Top Ten #{@choosen_genre} Movies are:"
+        top_ten.each {|movie| puts movie.title}
+      end
+    else
+      self.other_options
+    end
+  end
+
   def search_for_movies_by_actor
     puts "-------------------------------------------------------------"
     puts "Please enter the actor of the movie you would like to search."
@@ -230,20 +239,17 @@ class CommandLineInterface
     user_input = gets.chomp
     found_movies = Movie.all_by_actor(user_input)
     if found_movies.nil?
-      puts "(•ิ_•ิ)?"
-      puts "Sorry, that actor cant be found.🤭"
-      # self.search_for_movies
-      self.other_options
-    else
-      puts "-------------------------------------------------------------"
-      puts "Search Results:"
-      puts "-------------------------------------------------------------"
-      found_movies.each do |movie|
-        puts movie.title
-      end
-      found_movies
+      emoji = ["(•ิ_•ิ)?", "🤔"]
+      puts emoji.sample
+      puts "Sorry, movies with that actor can't be found."
+      return nil
     end
-
+    actors = found_movies.map{|movie| movie.actors}.flatten.map {|actor| actor.name}.uniq
+    puts "Search Results:"
+    puts "-------------------------------------"
+    found_movies.uniq.each {|movie|
+      puts "#{movie.title} (#{movie.year})\nCast: #{actors.join(', ')}\nIMDb rating: #{movie.imdbRating}"
+    }
   end
 
 end

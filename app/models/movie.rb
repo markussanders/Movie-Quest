@@ -24,7 +24,6 @@ class Movie < ActiveRecord::Base
     if genre_id.nil? ||
       nil
     else
-      p genre_id.id
       Genre.all[genre_id.id-1].movies
     end
   end
