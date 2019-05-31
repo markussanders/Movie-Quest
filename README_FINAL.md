@@ -32,7 +32,7 @@ $ rake db:migrate
 $ rake db:seed
 ```
 
-###How to Run App
+### How to Run App
 
 Run the following code to start command line database application. Make sure you are in home directory of folder.
 
