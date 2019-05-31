@@ -1,14 +1,13 @@
 # Movie Queue Maker
 
-<<<<<<< HEAD
-This is a command line database application that allows users to search for movies and save those movies into their own queue. 
+This is a command line database application that allows users to search for movies and save those movies into their own queue.
 
-Users are able to be created and saved in the database. Users can search for movies based on: movie title, movie actors, or movie genre. Users can add and delete movies in their queue and go through all the movies in their queue. 
+Users are able to be created and saved in the database. Users can search for movies based on: movie title, movie actors, or movie genre. Users can add and delete movies in their queue and go through all the movies in their queue.
 =======
 This is a command line database application that allows users to search for movies and save those movies into their own queue.
 
 Users are able to be created and saved in the database. Users can search for movies based on: movie title, movie actors, or movie genre. Users can add and delete movies in their queue and go through all the movies in their queue.
->>>>>>> 3749e475b22c275cc78112272cfb394e4153848c
+>>>>>>> c2b948dfb0dad523f17841e459dc8818ee6a88be
 
 ## Installation
 
