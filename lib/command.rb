@@ -62,6 +62,9 @@ class CommandLineInterface
     puts starring + actors.join(', ')
     puts "IMDb rating: #{rating}"
     found_movie
+
+    puts "Would you like to see recommended videos?"
+
   end
 
   def list_movie_titles
@@ -247,3 +250,8 @@ class CommandLineInterface
   end
 
 end
+
+def first_recommended(genre_input)
+  # first_found_movie_genre = self.search_movie(input).genres.uniq[0]
+  genre_input.movies[0..10].each {|movie| puts movie.title}
+  end
