@@ -157,6 +157,7 @@ class CommandLineInterface
         self.add_multiple_movies_to_queue?
       elsif menu_choice == '3' #search for movies by genre
         self.search_for_movies_by_genre
+        self.top_ten_by_genre
         self.add_multiple_movies_to_queue?
       elsif menu_choice == '4' #view current queue
         self.get_current_queue
@@ -190,7 +191,7 @@ class CommandLineInterface
         puts "Sorry, that movie can't be found."
         return self.other_options
       else
-        puts "(☞ ͡° ͜ʖ ͡°)☞'#{movie_to_add.title}' has been added to your queue."
+        puts "(☞ ͡° ͜ʖ ͡°)☞'#{movie_to_add.title}' has been added to your queue.😎"
         current_user.add_queue_selection(movie_to_add)
       end
     end
@@ -204,6 +205,7 @@ class CommandLineInterface
     Genre.list_of_all_genres
     puts "-------------------------------------------------------------"
     user_input = gets.chomp.downcase.capitalize
+    @chosen_genre = user_input
     found_movies = Movie.all_by_genre(user_input)
     if found_movies.nil?
       puts "(•ิ_•ิ)?"
@@ -213,6 +215,23 @@ class CommandLineInterface
       found_movies.uniq.each {|movie| puts movie.title}
     end
   end
+
+  def top_ten_by_genre
+    puts "View Top 10 🔝 rated #{@chosen_genre} films? (Y/N)"
+    user_input = gets.chomp.downcase
+    if user_input == 'y'
+      all_movies = Movie.all_by_genre(@chosen_genre.split.map(&:capitalize)*' ')
+      if all_movies
+        top_ten = all_movies.uniq.sort_by {|movie| movie.imdbRating}.reverse[0...10]
+        puts "-------------------------------------"
+        puts "The Top Ten #{@choosen_genre} Movies are:"
+        top_ten.each {|movie| puts movie.title}
+      end
+    else
+      self.other_options
+    end
+  end
+
   def search_for_movies_by_actor
     puts "-------------------------------------------------------------"
     puts "Please enter the actor of the movie you would like to search."
