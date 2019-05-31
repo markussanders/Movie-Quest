@@ -103,6 +103,7 @@ class CommandLineInterface
     if user_input.downcase == 'y'
       puts "(☞ ͡° ͜ʖ ͡°)☞'#{movie.title}' has been added to your queue."
       current_user.add_queue_selection(movie)
+      return self.other_options
     end
     self.other_options
   end
@@ -176,9 +177,9 @@ class CommandLineInterface
   end
 
   def add_multiple_movies_to_queue?
-    puts "-------------------------------------------------------------"
-    puts "Would you like to one of these movie to your queue? (Y/N)🤔"
-    puts "-------------------------------------------------------------"
+    puts "--------------------------------------------------------------"
+    puts "Would you like add to one of these movie to your queue? (Y/N)🤔"
+    puts "--------------------------------------------------------------"
     user_input = gets.chomp
     if user_input.downcase == 'y'
       puts "-------------------------------------------------------------"
@@ -193,6 +194,7 @@ class CommandLineInterface
       end
       current_user.add_queue_selection(movie)
       puts "'#{movie.title}' has been added to your queue."
+      self.other_options
     else
       self.other_options
     end
