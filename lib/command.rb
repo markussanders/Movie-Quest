@@ -54,6 +54,8 @@ class CommandLineInterface
     found_movie = current_user.search_movie(user_input)
     year = found_movie.year
     puts "Search Results:"
+    puts found_movie
+=======
     puts "#{found_movie.title} (#{year})"
     rating = found_movie.imdbRating
     actors = found_movie.actors.uniq.map {|actor| actor.name}
@@ -61,6 +63,7 @@ class CommandLineInterface
     starring = "Starring: "
     puts starring + actors.join(', ')
     puts "IMDb rating: #{rating}"
+>>>>>>> 3749e475b22c275cc78112272cfb394e4153848c
     found_movie
   end
 

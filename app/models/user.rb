@@ -1,10 +1,18 @@
+require 'pry'
+
 class User < ActiveRecord::Base
     has_many :queue_selections
     has_many :movies, through: :queue_selections
 
     def search_movie(movie_input)
+<<<<<<< HEAD
+        Movie.all.find do |movie|
+            movie.title.downcase == movie_input.downcase
+        end
+=======
         input = movie_input.downcase
         Movie.where("LOWER(title) = ?", input)[0]
+>>>>>>> dbb6aa72e76da2518d6041a8c417ae395f4497f4
     end
 
     def add_queue_selection(movie)
@@ -20,3 +28,4 @@ class User < ActiveRecord::Base
     end
 
 end
+
